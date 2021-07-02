@@ -16,47 +16,19 @@ module gnmi-yang-storage {
         description "Initial revision of gNMI yang storage model";
     }
 
-    typedef module-version-type {
-        type string;
-        description
-            "This type defines acceptable formats for the version of a
-            module. The version may be a semantic version, or a YANG
-            revision statement date or a empty string if the module is
-            not versioned. Examples:
-            semver format: <major>.<minor>.<patch>
-            examples: 0.1.0, 2.1.0
-            revision format: YYYY-MM-DD
-            example: 2016-11-31";
-        reference
-            "gNMI Specification Section 2.6.1 The ModelData message";
-    }
-
-    grouping yang-model {
-        leaf name {
-            description "Name of the yang model";
-            type string;
-        }
-        leaf version {
-            description "Version of the yang model";
-            type module-version-type;
-        }
-        leaf body {
-            description "Body of the yang model";
-            type string;
-        }
-    }
+    import gnmi-yang-model-types { prefix gnmi-ymt; revision-date "2021-07-02";}
 
     container gnmi-yang-models {
         list gnmi-yang-model {
             key "name version";
             config false;
-            uses yang-model;
+            uses gnmi-ymt:yang-model;
         }
     }
 
     rpc upload-yang-model {
         input {
-            uses yang-model;
+            uses gnmi-ymt:yang-model;
         }
     }
 

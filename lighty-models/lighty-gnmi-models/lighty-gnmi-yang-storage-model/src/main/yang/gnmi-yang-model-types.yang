@@ -1,0 +1,53 @@
+module gnmi-yang-model-types {
+    yang-version 1;
+    namespace "urn:lighty:gnmi:yang:model:types";
+    prefix "gnmi-ymt";
+
+    description
+        "Model used for storing yang models from which schema contexts of gNMI devices are constructed.
+
+         Copyright (c) 2021 PANTHEON.tech s.r.o. All Rights Reserved.
+
+         This program and the accompanying materials are made available under the
+         terms of the Eclipse Public License v1.0 which accompanies this distribution,
+         and is available at https://www.eclipse.org/legal/epl-v10.html";
+
+    revision "2021-07-02" {
+        description "Initial revision of gNMI yang model types";
+    }
+
+    typedef module-version-type {
+        type string;
+        description
+            "This type defines acceptable formats for the version of a
+            module. The version may be a semantic version, or a YANG
+            revision statement date or a empty string if the module is
+            not versioned. Examples:
+            semver format: <major>.<minor>.<patch>
+            examples: 0.1.0, 2.1.0
+            revision format: YYYY-MM-DD
+            example: 2016-11-31";
+        reference
+            "gNMI Specification Section 2.6.1 The ModelData message";
+    }
+
+    grouping yang-model-name-version {
+            leaf name {
+                description "Name of the yang model";
+                type string;
+            }
+            leaf version {
+                description "Version of the yang model";
+                type module-version-type;
+            }
+    }
+
+    grouping yang-model {
+        uses gnmi-ymt:yang-model-name-version;
+        leaf body {
+            description "Body of the yang model";
+            type string;
+        }
+    }
+
+}
